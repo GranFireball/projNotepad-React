@@ -1,4 +1,4 @@
-import { useReducer, useRef, useState, useEffect } from 'react';
+import { useReducer, useRef} from 'react';
 import {GrAdd} from 'react-icons/gr';
 import {MdDeleteForever} from 'react-icons/md';
 import {TodoReducer} from './TodoReducer';
@@ -7,12 +7,7 @@ export default function Todo(){
     const TodoData = [];
     const [todos, dispatch] = useReducer(TodoReducer, TodoData);
     const textTodo = useRef(null);
-    const [textDel, setTextDel] = useState();
-    useEffect(() =>{
-        dispatch({type: "DELETE_TODO", payload: textDel});
-        setTextDel('');
-    },  [textDel])
-
+    
     function Adicionar(){
         if(textTodo.current.value !== ''){
             dispatch({type: "ADD_TODO", payload: {text: textTodo.current.value}});
@@ -20,6 +15,10 @@ export default function Todo(){
         
     }
 
+    function Deletar(textDel){
+        dispatch({type: "DELETE_TODO", payload: textDel});
+    }
+    
     return(
         <>
         <div className="addTodo">
@@ -31,7 +30,7 @@ export default function Todo(){
                 return(
                     <div className='todo' key={todo.text}>
                         <span className='textTodo'>{todo.text}</span>
-                        <MdDeleteForever size={28} color='red' className='delIcon' onClick={() => setTextDel(todo.text)}/>
+                        <MdDeleteForever size={28} color='red' className='delIcon' onClick={() => Deletar(todo.text)}/>
                     </div>
                 )
             })}
